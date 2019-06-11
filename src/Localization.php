@@ -1,36 +1,36 @@
 <?php namespace sbreiler\Localization;
 
+use \DateTime;
+
 use sbreiler\Localization\Type\Currency;
 use sbreiler\Localization\Type\Number;
 use sbreiler\Localization\Type\Date;
 
 class Localization {
-	protected static $local = null;
-    protected static $locale_php = null;
-
-    public static function getLocal() {
-        if(null === static::$local) {
-            static::$local = config('app.locale', 'en');
-        }
-
-        return static::$local;
+    public static function getDefaultLocal() {
+        return config('localization.local');
     }
 
-    public static function getLocalPHP() {
-        if(null === static::$locale_php) {
-            static::$locale_php = config('app.locale_php', 'en_US');
-        }
-
-        return static::$locale_php;
+    public static function getDefaultTimezone() {
+        return config('localization.timezone');
     }
-	
+
 	static function currency($value = 0.0, $currency_code = 'USD') {
-		return Currency::create(static::getLocalPHP())
+		return Currency::create(static::getDefaultLocal())
 			->setValue($value);
 	}
-/*
+
 	static function number($value = 0.0) {
-		return new Number($value);
-	}
-	*/
+        return Number::create(static::getDefaultLocal())
+            ->setValue($value);
+    }
+
+    /**
+     * @param null|string|DateTime $value
+     * @return Date
+     */
+    static function date($value = null) {
+        return Date::create(static::getDefaultLocal())
+            ->setValue($value);
+    }
 }
