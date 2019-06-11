@@ -1,0 +1,36 @@
+{
+  "name": "sbreiler/laravel-localization",
+  "description": "Laravel Provider/",
+  "keywords": [
+    "laravel",
+    "localization",
+	"service provider",
+	"facade",
+	"intl"
+  ],
+  "authors": [
+    {
+      "name": "Steffen Breiler",
+      "email": "steffen@bt-server.de"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+	"ext-intl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "sbreiler\\Localization\\": "src"
+    }
+  },
+  "extra":{
+    "laravel":{
+      "providers":[
+        "sbreiler\\Localization\\LocalizationServiceProvider"
+      ],
+      "aliases":{
+        "L": "sbreiler\\Localization\\LocalizationFacade"
+      }
+    }
+  }
+}
