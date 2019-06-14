@@ -14,13 +14,12 @@ class Number extends NumberFormatter {
      */
     public static function create($locale, $style = NumberFormatter::DECIMAL, $pattern = null) {
         $res = new self($locale, $style);
-        // TODO: pattern is by NumberFormatter ignored?!
-        /*
+        // TODO: pattern is only for display purpose?
+
         if( true === is_string($pattern) ) {
-            var_dump($pattern);
             $res->setPattern($pattern);
         }
-        */
+
         return $res;
     }
 
