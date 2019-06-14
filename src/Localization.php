@@ -18,6 +18,7 @@ class Localization {
 
 	static function currency($value = 0.0, $currency_code = 'USD') {
 		return Currency::create(static::getDefaultLocal())
+            ->setCurrencyCode($currency_code)
 			->setValue($value);
 	}
 
