@@ -1,6 +1,7 @@
 <?php namespace sbreiler\Localization;
 
 use \DateTime;
+use \NumberFormatter;
 
 use sbreiler\Localization\Type\Currency;
 use sbreiler\Localization\Type\Number;
@@ -20,8 +21,8 @@ class Localization {
 			->setValue($value);
 	}
 
-	static function number($value = 0.0) {
-        return Number::create(static::getDefaultLocal())
+	static function number($value = 0.0, $style = NumberFormatter::DECIMAL, $pattern = null) {
+        return Number::create(static::getDefaultLocal(), $style, $pattern)
             ->setValue($value);
     }
 
