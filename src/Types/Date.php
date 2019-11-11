@@ -1,29 +1,40 @@
-<?php namespace sbreiler\Localization\Type;
+<?php namespace sbreiler\Localization\Types;
 
+use \IntlDateFormatter;
 use \DateTime;
 use \Carbon\Carbon; // todo: newer version available?
+use sbreiler\Localization\Contracts\Type as ContractType;
 
-class Date /*extends \IntlDateFormatter*/{
+class Date /*extends \IntlDateFormatter*/ implements ContractType {
+    const FORMATS = [
+        'FULL' => IntlDateFormatter::FULL,
+        'LONG' => IntlDateFormatter::LONG,
+        'MEDIUM' => IntlDateFormatter::MEDIUM,
+        'SHORT' => IntlDateFormatter::SHORT,
+        'NONE' => IntlDateFormatter::NONE
+    ];
+    const DEFAULT_FORMAT = self::FORMATS['NONE'];
+
     /** @var DateTime */
     protected $value = null;
 
     protected $locale = null;
     /** @var int */
-    protected $datetype = \IntlDateFormatter::NONE;
+    protected $datetype = self::DEFAULT_FORMAT;
     /** @var int */
-    protected $timetype = \IntlDateFormatter::NONE;
+    protected $timetype = self::DEFAULT_FORMAT;
     protected $timezone = null;
     protected $calendar = null;
     protected $pattern = null;
 
-    public function __construct($locale = null, $datetype = \IntlDateFormatter::NONE, $timetype = \IntlDateFormatter::NONE, $value = null) {
+    public function __construct($locale = null, $datetype = self::DEFAULT_FORMAT, $timetype = self::DEFAULT_FORMAT, $value = null) {
         $this->setLocale($locale)
             ->setDateType($datetype)
             ->setTimeType($timetype)
             ->setValue($value);
     }
 
-    public static function create($locale = null, $datetype = \IntlDateFormatter::NONE, $timetype = \IntlDateFormatter::NONE, $value = null) {
+    public static function create($locale = null, $datetype = self::DEFAULT_FORMAT, $timetype = self::DEFAULT_FORMAT, $value = null) {
         return new self($locale, $datetype, $timetype, $value);
     }
 
@@ -93,50 +104,50 @@ class Date /*extends \IntlDateFormatter*/{
 
     public function asShortDate() {
         return $this
-            ->setDateType(\IntlDateFormatter::SHORT)
-            ->setTimeType(\IntlDateFormatter::NONE);
+            ->setDateType(IntlDateFormatter::SHORT)
+            ->setTimeType(IntlDateFormatter::NONE);
     }
 
     public function asMediumDate() {
         return $this
-            ->setDateType(\IntlDateFormatter::MEDIUM)
-            ->setTimeType(\IntlDateFormatter::NONE);
+            ->setDateType(IntlDateFormatter::MEDIUM)
+            ->setTimeType(IntlDateFormatter::NONE);
     }
 
     public function asLongDate() {
         return $this
-            ->setDateType(\IntlDateFormatter::LONG)
-            ->setTimeType(\IntlDateFormatter::NONE);
+            ->setDateType(IntlDateFormatter::LONG)
+            ->setTimeType(IntlDateFormatter::NONE);
     }
 
     public function asFullDate() {
         return $this
-            ->setDateType(\IntlDateFormatter::FULL)
-            ->setTimeType(\IntlDateFormatter::NONE);
+            ->setDateType(IntlDateFormatter::FULL)
+            ->setTimeType(IntlDateFormatter::NONE);
     }
 
     public function asShortTime() {
         return $this
-            ->setDateType(\IntlDateFormatter::NONE)
-            ->setTimeType(\IntlDateFormatter::SHORT);
+            ->setDateType(IntlDateFormatter::NONE)
+            ->setTimeType(IntlDateFormatter::SHORT);
     }
 
     public function asMediumTime() {
         return $this
-            ->setDateType(\IntlDateFormatter::NONE)
-            ->setTimeType(\IntlDateFormatter::MEDIUM);
+            ->setDateType(IntlDateFormatter::NONE)
+            ->setTimeType(IntlDateFormatter::MEDIUM);
     }
 
     public function asLongTime() {
         return $this
-            ->setDateType(\IntlDateFormatter::NONE)
-            ->setTimeType(\IntlDateFormatter::LONG);
+            ->setDateType(IntlDateFormatter::NONE)
+            ->setTimeType(IntlDateFormatter::LONG);
     }
 
     public function asFullTime() {
         return $this
-            ->setDateType(\IntlDateFormatter::NONE)
-            ->setTimeType(\IntlDateFormatter::FULL);
+            ->setDateType(IntlDateFormatter::NONE)
+            ->setTimeType(IntlDateFormatter::FULL);
     }
 
     /**
@@ -146,12 +157,11 @@ class Date /*extends \IntlDateFormatter*/{
      * @return string
      */
     public function diffForHumans($other = null, $absolute = false, $short = false) {
-        //if( is)
-        if( is_a($other, get_class($this)) ) {
+        if( $other instanceof self ) {
             $other = $other->getValue();
         }
 
-        return Carbon::instance($this->getValue())->diffForHumans($other, $absolute, $short );
+        return Carbon::instance($this->getValue())->diffForHumans($other, $absolute, $short);
     }
 
     /**

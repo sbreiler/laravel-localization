@@ -2,9 +2,7 @@
 
 use \Illuminate\Database\Eloquent\Model;
 
-use sbreiler\Localization\Type\Currency;
-use sbreiler\Localization\Type\Number;
-use sbreiler\Localization\Type\Date;
+use sbreiler\Localization\Helpers;
 
 class LocalizationModel extends Model {
     protected $localize = [];
@@ -12,18 +10,21 @@ class LocalizationModel extends Model {
     /**
      * overrides method on model class
      * @param string $key
-     * @return mixed|string
+     * @return ..\Type\Number|..\Type\Date|..\Type\Currency|mixed
      */
     public function getAttributeValue($key) {
-        if( $this->hasLocalizaion($key) ) {
-            return $this->getCastedObject($key);
+        if( $this->hasLocalization($key) ) {
+            return Helper::castValueTo(
+                parent::getAttributeValue($key),
+                $this->getLocalize($key)
+            );
         }
 
         return parent::getAttributeValue($key);
     }
 
     public function setAttribute($key, $value) {
-        if( $this->hasLocalizaion($key) ) {
+        if( $this->hasLocalization($key) ) {
             if( is_object($value) ) {
                 $value = $value->getValue();
             }
@@ -36,7 +37,7 @@ class LocalizationModel extends Model {
      * @param $key
      * @return bool
      */
-    protected function hasLocalizaion($key) {
+    protected function hasLocalization($key) {
         if(
             (false === isset($this->localize)) ||
             (false === is_array($this->localize))
@@ -45,25 +46,5 @@ class LocalizationModel extends Model {
         }
 
         return array_key_exists($key, $this->localize);
-    }
-
-    protected function getCastedObject($key) {
-        $settings = $this->localize[$key];
-
-        switch($settings['type']) {
-            case Currency::class:
-                $currency = Localization::currency(parent::getAttributeValue($key));
-
-                if( array_key_exists('currency', $settings) ) {
-                    $currency->setCurrencyCode($settings['currency']);
-                }
-
-                return $currency;
-
-            case Number::class:
-                return Localization::number(parent::getAttributeValue($key));
-        }
-
-        return null;
     }
 }

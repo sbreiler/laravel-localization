@@ -1,4 +1,4 @@
-# Easily show values in localizated version
+# Easily show values in localized version
 
 *__!! This repository is in an early stage, don't use it in production - subject to change !!__*
 
@@ -7,7 +7,7 @@
 * numbers
 * currencies
 ### Features
-* reliable: the heavy lifting of formating numbers and currency is done by the php extentions `intl`
+* reliable: the heavy lifting of formatting numbers and currency is done by the php extensions `intl`
 
 ## Installation *(through github for now)*
 Put this repository in your `composer.json`:
@@ -29,7 +29,7 @@ composer require "sbreiler/laravel-localization:dev-master"
 
 
 ## Usage
-After successfull installation a Facade named `L` is available to you.  
+After successful installation a Facade named `L` is available to you.  
 
 #### Currency example
 In your view you could do something like this:
@@ -48,7 +48,7 @@ For a `float $total = 65432.10` the result would be (using `PHP 7.1.26`):
 | de_DE | `65.432,10 $` |
 | ru_RU | `65 432,10 $` |
 
-To get a different curreny unit:
+To get a different currency unit:
 ```php
 <div>
     Expenses: {{ L::currency($total)->setCurrencyCode('EUR') }}
