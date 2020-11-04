@@ -43,13 +43,14 @@ class Date /*extends \IntlDateFormatter*/ implements ContractType {
      * @return DateTime
      */
     protected static function checkDateType($value) {
-        if( true === is_string($value) ) {
-            return new DateTime($value);
-        }
-
+        // first check for numeric value
         if( true === is_numeric($value) ) {
             // could be timestamp?!
             return (new DateTime())->setTimestamp((int)$value);
+        }
+
+        if( true === is_string($value) ) {
+            return new DateTime($value);
         }
 
         return $value;
