@@ -47,6 +47,11 @@ class Date /*extends \IntlDateFormatter*/ implements ContractType {
             return new DateTime($value);
         }
 
+        if( true === is_numeric($value) ) {
+            // could be timestamp?!
+            return (new DateTime())->setTimestamp((int)$value);
+        }
+
         return $value;
     }
 
