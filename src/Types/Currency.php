@@ -4,7 +4,7 @@ use \NumberFormatter;
 use sbreiler\Localization\Contracts\Type as ContractType;
 use sbreiler\Localization\Helpers\Config;
 
-class Currency extends NumberFormatter implements ContractType {
+class Currency extends BaseNumber implements ContractType {
     const DEFAULT_CURRENCY_CODE = 'USD';
 
     protected static $CONFIG_DEFAULT_CURRENCY_CODE = null;
@@ -25,23 +25,6 @@ class Currency extends NumberFormatter implements ContractType {
             (new self($locale, NumberFormatter::CURRENCY, $pattern))
                 ->setCurrencyCode($currency_code)
         ;
-    }
-
-    /**
-    * @param float $value
-    * @return $this
-    */
-    public function setValue($value) {
-        $this->value = (float)$value;
-
-        return $this;
-    }
-
-    /**
-    * @return float
-    */
-    public function getValue() {
-        return $this->value;
     }
 
     /**

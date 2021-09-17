@@ -7,7 +7,7 @@ use sbreiler\Localization\Contracts\Type as ContractType;
  * Class Number
  * @method string|false getPattern()
  */
-class Number extends NumberFormatter implements ContractType {
+class Number extends BaseNumber implements ContractType {
     const STYLE = [
         'DECIMAL' => NumberFormatter::DECIMAL,
         'CURRENCY' => NumberFormatter::CURRENCY,
@@ -33,23 +33,6 @@ class Number extends NumberFormatter implements ContractType {
     }
 
     /**
-     * @param float $value
-     * @return $this
-     */
-    public function setValue($value) {
-        $this->value = (float)$value;
-
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getValue() {
-        return $this->value;
-    }
-
-    /**
      * Set formatter pattern
      * @link https://php.net/manual/en/numberformatter.setpattern.php
      * @param string $pattern
@@ -63,34 +46,6 @@ class Number extends NumberFormatter implements ContractType {
         }
 
         return $this;
-    }
-
-    /**
-     * @param int $precision
-     * @param int $mode
-     * @return $this
-     */
-    public function round($precision = 0, $mode = NumberFormatter::ROUND_HALFUP) {
-        $this->setAttribute(NumberFormatter::ROUNDING_MODE, $mode);
-        $this->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
-
-        return $this;
-    }
-
-    /**
-     * @param int $precision
-     * @return $this
-     */
-    public function floor($precision = 0) {
-        return $this->round($precision, NumberFormatter::ROUND_FLOOR);
-    }
-
-    /**
-     * @param int $precision
-     * @return $this
-     */
-    public function ceil($precision = 0) {
-        return $this->round($precision, NumberFormatter::ROUND_CEILING);
     }
 
     /**
